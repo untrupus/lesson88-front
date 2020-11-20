@@ -81,7 +81,7 @@ const SinglePost = props => {
         return (
             <SingleComment
                 key={comment._id}
-                time={comment.datetime}
+                time={comment.datetime.replace("T", " ").slice(0, -5)}
                 name={comment.user.username}
                 text={comment.text}
             />

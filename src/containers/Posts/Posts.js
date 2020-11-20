@@ -38,7 +38,7 @@ const Posts = () => {
                 src={post.image ?
                     'http://localhost:8000/uploads/' + post.image :
                     "https://simg.nicepng.com/png/small/198-1989543_text-message-iphone-icon-text-text-message-icon.png"}
-                time={post.datetime}
+                time={post.datetime.replace("T", " ").slice(0, -5)}
                 name={post.user[0].username}
                 text={post.title}
                 comments={post.comments.length}
