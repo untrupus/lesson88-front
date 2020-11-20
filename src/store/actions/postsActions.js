@@ -3,7 +3,7 @@ import {
     FETCH_POSTS_ERROR,
     FETCH_POSTS_SUCCESS,
     ADD_POST_ERROR,
-    ADD_POST_SUCCESS,
+    ADD_COMMENT_SUCCESS,
     FETCH_POST_ERROR,
     FETCH_POST_SUCCESS,
     FETCH_COMMENTS_ERROR,
@@ -31,10 +31,6 @@ export const fetchPosts = () => {
     };
 };
 
-export const addPostSuccess = value => {
-    return {type: ADD_POST_SUCCESS, value};
-};
-
 const addPostError = error => {
     return {type: ADD_POST_ERROR, error};
 };
@@ -46,9 +42,10 @@ export const addPost = (data) => {
         };
         try {
             await axiosAPI.post('/posts', data, {headers});
+            dispatch(addPostError(null));
             dispatch(push("/"));
         } catch (e) {
-            dispatch(addPostError(e));
+            dispatch(addPostError(e.response.data));
         }
     };
 };
@@ -91,13 +88,18 @@ export const fetchComments = (id) => {
     };
 };
 
+const addCommentSuccess = (value) => {
+  return {type: ADD_COMMENT_SUCCESS, value};
+};
+
 export const addComment = (data) => {
     return async (dispatch, getState) => {
         const headers = {
             "Authorization": getState().users.user && getState().users.user.user.token
         };
         try {
-            await axiosAPI.post('/comments', data, {headers});
+            const response = await axiosAPI.post('/comments', data, {headers});
+            dispatch(addCommentSuccess(response.data));
         } catch (e) {
             dispatch(addPostError(e));
         }

@@ -57,11 +57,8 @@ const SinglePost = props => {
 
     useEffect(() => {
         dispatch(fetchPost(props.match.params.id));
-    }, [dispatch]);
-
-    useEffect(() => {
-       dispatch(fetchComments(props.match.params.id));
-    }, [dispatch]);
+        dispatch(fetchComments(props.match.params.id));
+    }, [dispatch, props.match.params.id]);
 
     const inputChangeHandler = (e) => {
         const value = e.target.value;
@@ -70,20 +67,25 @@ const SinglePost = props => {
         });
     };
 
-    const formSubmit = () => {
-      if (state.text !== '') {
-          dispatch(addComment(state));
-      }
+    const formSubmit = (e) => {
+        e.preventDefault();
+        if (state.text !== '') {
+            dispatch(addComment(state));
+        }
+        setState(prevState => {
+            return {...prevState, text: ''};
+        });
     };
 
     const commentList = comments.map(comment => {
-       return (
-           <SingleComment
-               time={post.datetime.slice(0, -27)}
-               name={comment.user.username}
-               text={comment.text}
-           />
-       )
+        return (
+            <SingleComment
+                key={comment._id}
+                time={comment.datetime}
+                name={comment.user.username}
+                text={comment.text}
+            />
+        )
     });
 
     return (
@@ -99,25 +101,25 @@ const SinglePost = props => {
                         <Divider/>
                         {post.description && <p>{post.description}</p>}
                     </div>
-                </Paper> }
+                </Paper>}
                 {commentList}
                 {user ?
                     <form className={classes.form}
                           onSubmit={formSubmit}
                     >
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        className={classes.field}
-                        id="comment"
-                        label="Comment"
-                        name="comment"
-                        value={state.text}
-                        onChange={inputChangeHandler}
-                        autoComplete="comment"
-                        autoFocus
-                        required={true}
-                    />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            className={classes.field}
+                            id="comment"
+                            label="Comment"
+                            name="comment"
+                            value={state.text}
+                            onChange={inputChangeHandler}
+                            autoComplete="comment"
+                            autoFocus
+                            required={true}
+                        />
                         <Button
                             type="submit"
                             variant="contained"

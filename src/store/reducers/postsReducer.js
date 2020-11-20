@@ -4,7 +4,9 @@ import {
     FETCH_POST_ERROR,
     FETCH_POST_SUCCESS,
     FETCH_COMMENTS_ERROR,
-    FETCH_COMMENTS_SUCCESS
+    FETCH_COMMENTS_SUCCESS,
+    ADD_COMMENT_SUCCESS,
+    ADD_POST_ERROR
 } from "../actionTypes";
 
 const initialState = {
@@ -12,6 +14,7 @@ const initialState = {
     comments: [],
     singlePost: {},
     singlePostError: null,
+    addPostError: null,
     error: null,
 };
 
@@ -27,8 +30,12 @@ const artistsReducer = (state = initialState, action) => {
             return {...state, singlePostError: action.error};
         case FETCH_COMMENTS_SUCCESS:
             return {...state, comments: action.value};
+        case ADD_POST_ERROR:
+            return {...state, addPostError: action.error}
         case FETCH_COMMENTS_ERROR:
             return {...state, error: action.error};
+        case ADD_COMMENT_SUCCESS:
+            return {...state, comments: [action.value, ...state.comments]};
         default:
             return state;
     }

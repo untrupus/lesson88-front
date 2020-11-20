@@ -38,10 +38,10 @@ const Posts = () => {
                 src={post.image ?
                     'http://localhost:8000/uploads/' + post.image :
                     "https://simg.nicepng.com/png/small/198-1989543_text-message-iphone-icon-text-text-message-icon.png"}
-                time={post.datetime.slice(0, -27)}
-                name={post.user.username}
+                time={post.datetime}
+                name={post.user[0].username}
                 text={post.title}
-                comments="6"
+                comments={post.comments.length}
             />
         )
     });

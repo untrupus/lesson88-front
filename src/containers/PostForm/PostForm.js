@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {addPost} from "../../store/actions/postsActions";
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -42,6 +43,7 @@ const PostForm = () => {
     });
     const inputRef = useRef();
     const dispatch = useDispatch();
+    const error = useSelector(state => state.posts.addPostError);
 
     const inputChangeHandler = (e) => {
         const name = e.target.name;
@@ -73,6 +75,7 @@ const PostForm = () => {
                 <Typography component="h1" variant="h5">
                     Add new post
                 </Typography>
+                {error ? <Alert severity="error">{error.message}</Alert> : null}
                 <form className={classes.form}
                       onSubmit={formSubmit}
                 >
