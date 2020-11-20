@@ -57,7 +57,7 @@ const UserMenu = props => {
                 onClose={handleClose}
             >
                 <MenuItem onClick={handleClose}>
-                    <Link component={RouterLink} className={classes.history} to="/post">Add new post</Link>
+                    <Link component={RouterLink} className={classes.history} to="/addpost">Add new post</Link>
                 </MenuItem>
                 <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>

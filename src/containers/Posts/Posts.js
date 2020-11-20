@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import PostItem from "../../components/PostItem/PostItem";
 import {fetchPosts} from "../../store/actions/postsActions";
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -33,12 +34,14 @@ const Posts = () => {
         return (
             <PostItem
                 key={post._id}
+                id={post._id}
                 src={post.image ?
                     'http://localhost:8000/uploads/' + post.image :
                     "https://simg.nicepng.com/png/small/198-1989543_text-message-iphone-icon-text-text-message-icon.png"}
-                time={post.datetime}
+                time={post.datetime.slice(0, -27)}
                 name={post.user.username}
                 text={post.title}
+                comments="6"
             />
         )
     });
